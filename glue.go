@@ -36,9 +36,6 @@ func (m *MyStruct) Register(muxID uint32, out *error) error {
 	}
 
 	m.cl = rpc.NewClient(conn)
-	// m.impl = in
-	// in.Get("hello")
-	// *out = 20
 	return nil
 }
 

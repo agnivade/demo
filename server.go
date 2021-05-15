@@ -32,10 +32,6 @@ func NewServer() (*Server, error) {
 	}, nil
 }
 
-// func (s *Server) Big() {
-// 	s.m.impl.Get("lolery")
-// }
-
 func (s *Server) Start() {
 	for {
 		conn, err := s.l.Accept()
@@ -45,15 +41,6 @@ func (s *Server) Start() {
 			}
 			return
 		}
-
-		// cli := rpc.NewClient(conn)
-		// var out *int
-		// err = cli.Call("MyStruct.Multiply", 5, &out)
-		// if err != nil {
-		// 	mlog.Error("hahahaha------", mlog.Err(err))
-		// 	continue
-		// }
-		// mlog.Info("got this-----------", mlog.Int("out", *out))
 
 		go s.ServeConn(conn)
 	}

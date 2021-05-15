@@ -35,11 +35,23 @@ func main() {
 	client.Callback("hello world")
 
 	time.Sleep(time.Second)
-
-	// res, err := client.Register()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// fmt.Println(res)
 }
+
+// type Server struct {.. s *Suite ..}
+// NewServer(network, addr string) *Server
+//
+// (*Suite) GetChannel(..)
+// (*Suite) GetTeam(..)
+// (*Suite) SaveConfig(..)
+
+// NewClient(network, addr string, hooks Interface) *Client
+// (*Client) GetChannel(..)
+// (*Client) GetTeam(..)
+// (*Client) SaveConfig(..)
+// (*Client) ...
+
+// type Hooks interface {
+// OnConfigChange()
+// OnClusterEvent()
+// ...
+// }
