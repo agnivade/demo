@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/rpc"
@@ -20,13 +19,12 @@ type Server struct {
 	broker *MuxBroker
 }
 
-func NewServer() (*Server, error) {
-	suiteL, err := serverListener()
+func NewServer(path string) (*Server, error) {
+	suiteL, err := serverListener(path)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println("address----", suiteL.Addr().String())
 	return &Server{
 		l: suiteL,
 	}, nil
@@ -84,12 +82,12 @@ func (s *Server) ServeConn(conn net.Conn) {
 	rpcServer.ServeConn(control)
 }
 
-func serverListener() (net.Listener, error) {
+func serverListener(path string) (net.Listener, error) {
 	if runtime.GOOS == "windows" {
 		return serverListener_tcp()
 	}
 
-	return serverListener_unix()
+	return serverListener_unix(path)
 }
 
 func serverListener_tcp() (net.Listener, error) {
@@ -101,19 +99,8 @@ func serverListener_tcp() (net.Listener, error) {
 	return listener, nil
 }
 
-func serverListener_unix() (net.Listener, error) {
-	tf, err := ioutil.TempFile("", "suite")
-	if err != nil {
-		return nil, err
-	}
-	path := tf.Name()
-
-	// Close the file and remove it because it has to not exist for
-	// the domain socket.
-	if err := tf.Close(); err != nil {
-		return nil, err
-	}
-	if err := os.Remove(path); err != nil {
+func serverListener_unix(path string) (net.Listener, error) {
+	if err := os.RemoveAll(path); err != nil {
 		return nil, err
 	}
 

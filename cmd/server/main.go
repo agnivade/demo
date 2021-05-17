@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	// "time"
+	"os"
 
 	"github.com/agnivade/demo"
 )
 
 func main() {
-	srv, err := demo.NewServer()
+	srv, err := demo.NewServer(os.Args[1])
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -16,8 +16,5 @@ func main() {
 
 	go srv.Start()
 
-	// time.Sleep(20 * time.Second)
-
-	// srv.Big()
 	select {}
 }
